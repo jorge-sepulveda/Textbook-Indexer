@@ -191,7 +191,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         printInOrder(t.left);
 
-        System.out.println(t.element);
+        System.out.println(t.element + " "); 
 
         printInOrder(t.right);
 
@@ -215,8 +215,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             return null;
         else if( t.right == null )
             return t;
-        return findMin( t.right );
+        return findMax( t.right );
     }
+
 
         // Test program
     /*public static void main( String [ ] args )

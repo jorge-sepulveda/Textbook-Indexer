@@ -7,12 +7,12 @@ public class Word implements Comparable<Word>
 	private String wordText;
 
 	Word(){
-		System.out.println("unparametized c-structor called");
+		//System.out.println("unparametized c-structor called");
 	}
 	Word(String inWord,int lineNumber){
 		wordText = inWord;
 		lineNumbers.add(lineNumber);
-		System.out.println("c-structor called with word: " + wordText + " and line num: " + lineNumbers.peek());
+		//System.out.println("c-structor called with word: " + wordText + " and line num: " + lineNumbers.peek());
 		count = 1;
 	}
 
@@ -27,7 +27,7 @@ public class Word implements Comparable<Word>
 	}
 
 	public int compareTo(Word w){
-		return (this.wordText).compareTo(w.wordText);
+		return (this.getWord()).compareTo(w.getWord());
 	}
 
 	public boolean equals(Word w){

@@ -17,9 +17,22 @@ public class Word implements Comparable<Word>
 	}
 
 	public void countWord(int lineNumber){
-		lineNumbers.add(lineNumber);
-		count+=1;
-		System.out.println("added ln and to the count");
+
+		//checks to see if we are on the same line. if it is, then just add to the count.
+		if (lineNumber == lineNumbers.peek()){
+			count += 1;
+			return;
+		}
+		else{
+			lineNumbers.add(lineNumber);
+			count+=1;
+			//System.out.println("added + and to the count");
+			return;
+		}
+	}
+
+	public int getLineNumber(){
+		return lineNumbers.peek();
 	}
 
 	public String getWord(){
@@ -35,6 +48,7 @@ public class Word implements Comparable<Word>
 	}
 
 	public String toString(){
-		return getWord();
+		//String returnedStr =  String.format(%23, getWord() + count).replace(' ', '.'); + ":" + lineNumbers;
+		return String.format("%-23s", getWord() + count ).replace(' ', '.')+ ":" + lineNumbers;
 	}
 }

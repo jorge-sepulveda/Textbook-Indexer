@@ -1,3 +1,5 @@
+import java.lang.*;
+import java.util.*;
 class Driver
 {
         // Test program
@@ -46,15 +48,39 @@ class Driver
             System.out.println(args[1]);
 
             Indexer i1 = new Indexer(args[0],args[1]);
+
+            //i1.printIndexedTree();
+
+            String test = "'It gives guidance to the Ri-ght, and we -have believed therein: we shall not jo'in (in worship) any \"(gods) with our Lord.";
+            test = test.toLowerCase();
+            test = test.replaceAll("[^a-zA-Z'-]", " ");
+            test = test.replaceAll("(?<=\\s|^)'+(?=\\w)|(?<=\\w)'(?=\\s|$)|(?<=\\s|^)-(?=\\w)|(?<=\\w)-(?=\\s|$)", "");
+            String[] testArr = test.split("\\s+");
+
+            for (String a : testArr) {
+                System.out.println(a);
+            }
+
+
+            //test = test.replaceAll("[a-zA-Z]", "");
+            //test = test.replaceAll("\"[a-zA-z]*", "");
+            //test = test.replaceAll(":,.", "");
+            //String[]
+
+            //System.out.println(test);
+
+
             //System.out.println("printing TREE!");
             //i1.printFilteredTree();
 
 
+
+
         }catch ( Exception e ) {
             e.printStackTrace();
-        } 
+        }
 
-        
+
 
 
         //System.out.println(w1.compareTo(w2));

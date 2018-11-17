@@ -10,7 +10,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     /** The tree root. */
 	private BinaryNode<AnyType> root;
-  
+
 	/**
      * Construct the tree.
      */
@@ -32,18 +32,27 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     {
         if( t == null )
             return new BinaryNode<>( x, null, null );
-        
+
         int compareResult = x.compareTo( t.element );
-            
+
         if( compareResult < 0 ) // value in CURRENT root 't' > new value
             t.left = insert( x, t.left );
         else if( compareResult > 0 ) // value in CURRENT root 't' < new value
             t.right = insert( x, t.right );
-        else
-            ;  // Duplicate; do nothing
+        else{
+            if ( x instanceof Word ){
+                Word w;
+                w=(Word)x;
+                Word tin;
+                tin = (Word)t.element;
+                tin.countWord(w.getLineNumber());
+            }
+        }
+             // Duplicate; do nothing
+
         return t;
     }
-    
+
     /**
      * Remove from the tree. Nothing is done if x is not found.
      * @param x the item to remove.
@@ -63,9 +72,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     {
         if( t == null )
             return t;   // Item not found; do nothing
-            
+
         int compareResult = x.compareTo( t.element );
-            
+
         if( compareResult < 0 )
             t.left = remove( x, t.left );
         else if( compareResult > 0 )
@@ -73,9 +82,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         else if( t.left != null && t.right != null ) // Two children
         {
         	// move smallest value into this place!
-        	t.element = findMin( t.right ).element; 
+        	t.element = findMin( t.right ).element;
         	// now delete this node
-            t.right = remove( t.element, t.right ); 
+            t.right = remove( t.element, t.right );
         }
         else
             t = ( t.left != null ) ? t.left : t.right;
@@ -106,7 +115,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
             return t;
         return findMin( t.left );
     }
-    
+
     /**
      * Find an item in the tree.
      * @param x the item to search for.
@@ -124,9 +133,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     {
         if( t == null )
             return false;
-            
+
         int compareResult = x.compareTo( t.element );
-            
+
         if( compareResult < 0 )
             return contains( x, t.left );
         else if( compareResult > 0 )
@@ -145,7 +154,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
      * @return true if empty, false otherwise.
      */
     public boolean isEmpty( ) { return root == null; }
- 
+
     /**
      * Internal method to compute height of a subtree.
      * @param t the node that roots the subtree.
@@ -155,9 +164,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
         if( t == null )
             return -1;
         else
-            return 1 + Math.max( height( t.left ), height( t.right ) );    
+            return 1 + Math.max( height( t.left ), height( t.right ) );
     }
-    
+
     // Basic node stored in unbalanced binary search trees
     static class BinaryNode<AnyType>
     {
@@ -191,7 +200,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         printInOrder(t.left);
 
-        System.out.println(t.element + " "); 
+        System.out.println(t.element + " ");
 
         printInOrder(t.right);
 
@@ -230,6 +239,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
         for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
             t.insert( i );
-   
+
     }*/
 }

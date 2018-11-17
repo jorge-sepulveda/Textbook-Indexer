@@ -19,7 +19,7 @@ public class Word implements Comparable<Word>
 	public void countWord(int lineNumber){
 
 		//checks to see if we are on the same line. if it is, then just add to the count.
-		if (lineNumber == lineNumbers.peek()){
+		if (lineNumbers.contains(lineNumber)){
 			count += 1;
 			return;
 		}
@@ -48,7 +48,10 @@ public class Word implements Comparable<Word>
 	}
 
 	public String toString(){
-		//String returnedStr =  String.format(%23, getWord() + count).replace(' ', '.'); + ":" + lineNumbers;
-		return String.format("%-23s", getWord() + count ).replace(' ', '.')+ ":" + lineNumbers;
+		String returnedStr =  String.format("%-20s%4d:", getWord(),count ).replace(' ', '.') + lineNumbers;
+		returnedStr = returnedStr.replace("[", " ");
+		returnedStr = returnedStr.replace("]", "");
+		returnedStr = returnedStr.replace(",", "");
+		return returnedStr;
 	}
 }

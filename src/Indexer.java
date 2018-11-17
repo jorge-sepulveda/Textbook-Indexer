@@ -122,7 +122,7 @@ public class Indexer
 		out.close();
 
 		System.out.println("Output index here.");
-		PrintStream outIndex = new PrintStream(new FileOutputStream("input1output.txt", false));
+		PrintStream outIndex = new PrintStream(new FileOutputStream("input2output.txt", false));
 		System.setOut(outIndex);
 		indexedBST.printInOrder();
 		System.setOut(console);

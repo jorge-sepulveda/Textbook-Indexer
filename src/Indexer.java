@@ -24,8 +24,7 @@ public class Indexer
 				//System.out.println("both files exists!");
 			}
 			else{
-				//hrow UnderflowException("invalid files");
-				return;
+				throw new Exception("Could not find file");
 			}
 
 			DoIndex();
@@ -35,11 +34,11 @@ public class Indexer
 		}
 		return;
 	}
-	/**
+	 /**
 	 *Do Index ties up the Indexer constructor by calling the FileReaders and
 	 *calling the output functions
 	 *
-	*/
+	 */
 	private void DoIndex(){
 		try{
 			filteredBST = new BinarySearchTree<Word>();

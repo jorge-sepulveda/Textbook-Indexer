@@ -1,166 +1,244 @@
-import java.util.*;
-import java.lang.*;
-import java.io.*;
 
-public class Indexer
+
+/**
+ * Implements an unbalanced binary search tree.
+ * Note that all "matching" is based on the compareTo method.
+ * @author Mark Allen Weiss
+ */
+public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 {
-	private String datafile;
-	private String filterfile;
-	private BinarySearchTree<Word> filteredBST;
-	private BinarySearchTree<Word> indexedBST;
 
+    /** The tree root. */
+	private BinaryNode<AnyType> root;
 
 	/**
-	*Indexer constructor takes in the file names from args and calls all the functions
-	*needed to construct the BST's
-	*/
-
-	public Indexer(String filterName, String dataFile){
-		try{
-			datafile = dataFile;
-			filterfile = filterName;
-
-			if (fileExists()){
-				//System.out.println("both files exists!");
-			}
-			else{
-				throw Exception("files not valid");
-			}
-
-			DoIndex();
-
-		}catch( Exception e){
-			e.printStackTrace();
-		}
-		return;
-	}
-	/**
-	 *Do Index ties up the Indexer constructor by calling the FileReaders and
-	 *calling the output functions
-	 *
-	*/
-	private void DoIndex(){
-		try{
-			filteredBST = new BinarySearchTree<Word>();
-			indexedBST = new BinarySearchTree<Word>();
-			FileFilterReader();
-			FileWordReader();
-			OutputResults();
-		}catch( Exception e){
-			e.printStackTrace();
-		}
-		return;
-
-	}
-	/**
-     * Checks if the file exists in the directory.
-     * @return true if both files exists.
+     * Construct the tree.
      */
-	private boolean fileExists(){
-		return (new File(datafile).exists() && new File(filterfile).exists());
-	}
+    public BinarySearchTree( ) { root = null; }
 
-	/**
-	 * FileFilterReader reads the stop words file by reading the file line by line
-	 * and it inserts each word into the filteredBST.since the stop words file is
-	 * clean, I didn't do any Regex filtering, I just lowercased each word that goes in.
-	 */
-	private void FileFilterReader() throws IOException{
-		BufferedReader lineReader;
-		System.out.println("file filter reader");
-		lineReader = new BufferedReader(new FileReader(filterfile));
+    /**
+     * Insert into the tree; duplicates are ignored.
+     * @param x the item to insert.
+     */
+    public void insert( AnyType x ) { root = insert( x, root ); }
 
-		String line;
-		while (true){
-			line = lineReader.readLine();
+    /**
+     * Internal method to insert into a subtree.
+     * @param x the item to insert.
+     * @param t the node that roots the subtree.
+     * @return the new root of the subtree.
+     */
+    private BinaryNode<AnyType> insert( AnyType x, BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return new BinaryNode<>( x, null, null );
 
-			if (line == null){
-				lineReader.close();
-				return;
-			}
-			line = line.toLowerCase();
-			Word w = new Word(line, 0);
-			filteredBST.insert(w);
-		}
-	}
+        int compareResult = x.compareTo( t.element );
 
-	/**
-	 * FileWordReader reads the input file by reading the file line by line
-	 * and it inserts each word into the indexedBST. These files have a lot more of
-	 * unnecessary characters there is some Regex checking and cleaning and a lot of it.
-	 */
-	private void FileWordReader() throws IOException{
-		BufferedReader lineReaderWord;
-		System.out.println("file filter reader");
-		lineReaderWord = new BufferedReader(new FileReader(datafile));
-
-		String line;
-		int currentLineNumber=1;
-		while (true){
-			line = lineReaderWord.readLine();
-
-			if (line == null){
-				lineReaderWord.close();
-				return;
-			}
-			line = line.toLowerCase();
-            line = line.replaceAll("[^a-zA-Z'-]", " ");
-            line = line.replaceAll("(?<=\\s|^)'+(?=\\w)|(?<=\\w)'(?=\\s|$)|(?<=\\s|^)-(?=\\w)|(?<=\\w)-(?=\\s|$)|'-|$=|-'|-\\s|'\\s", "");//the regex expression to end all regex expressions
-
-            String[] lineArr = line.split("\\s+");
-            for (String l : lineArr) {
-            	if (l.matches(".*[a-zA-Z]+.*")){
-            		Word w = new Word(l, currentLineNumber);
-	            	if (filteredBST.contains(w)){
-	            		//System.out.println("stop word!");
-	            		continue;
-	            	}
-	            	else{
-	            		indexedBST.insert(w);
-	            	}
-            	}
+        if( compareResult < 0 ) // value in CURRENT root 't' > new value
+            t.left = insert( x, t.left );
+        else if( compareResult > 0 ) // value in CURRENT root 't' < new value
+            t.right = insert( x, t.right );
+        else{
+            if ( x instanceof Word ){
+                Word w;
+                w=(Word)x;
+                Word tin;
+                tin = (Word)t.element;
+                tin.countWord(w.getLineNumber());
             }
-			//add line to a list and then iterate through it to add it.
-			currentLineNumber+=1;
-		}
+        }
+             // Duplicate; do nothing
 
-	}
+        return t;
+    }
+
+    /**
+     * Remove from the tree. Nothing is done if x is not found.
+     * @param x the item to remove.
+     */
+    public void remove( AnyType x )
+    {
+        root = remove( x, root );
+    }
+
+    /**
+     * Internal method to remove from a subtree.
+     * @param x the item to remove.
+     * @param t the node that roots the subtree.
+     * @return the new root of the subtree.
+     */
+    private BinaryNode<AnyType> remove( AnyType x, BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return t;   // Item not found; do nothing
+
+        int compareResult = x.compareTo( t.element );
+
+        if( compareResult < 0 )
+            t.left = remove( x, t.left );
+        else if( compareResult > 0 )
+            t.right = remove( x, t.right );
+        else if( t.left != null && t.right != null ) // Two children
+        {
+        	// move smallest value into this place!
+        	t.element = findMin( t.right ).element;
+        	// now delete this node
+            t.right = remove( t.element, t.right );
+        }
+        else
+            t = ( t.left != null ) ? t.left : t.right;
+        return t;
+    }
+
+    /**
+     * Find the smallest item in the tree.
+     * @return smallest item or null if empty.
+     */
+    public AnyType findMin( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException("Cound not findMin");
+        return findMin( root ).element;
+    }
+
+    /**
+     * Internal method to find the smallest item in a subtree.
+     * @param t the node that roots the subtree.
+     * @return node containing the smallest item.
+     */
+    private BinaryNode<AnyType> findMin( BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return null;
+        else if( t.left == null )
+            return t;
+        return findMin( t.left );
+    }
+
+    /**
+     * Find an item in the tree.
+     * @param x the item to search for.
+     * @return true if not found.
+     */
+    public boolean contains( AnyType x ) { return contains( x, root ); }
+
+    /**
+     * Internal method to find an item in a subtree.
+     * @param x is item to search for.
+     * @param t the node that roots the subtree.
+     * @return node containing the matched item.
+     */
+    private boolean contains( AnyType x, BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return false;
+
+        int compareResult = x.compareTo( t.element );
+
+        if( compareResult < 0 )
+            return contains( x, t.left );
+        else if( compareResult > 0 )
+            return contains( x, t.right );
+        else
+            return true;    // Match
+    }
+
+    /**
+     * Make the tree logically empty.
+     */
+    public void makeEmpty( ) { root = null; }
+
+    /**
+     * Test if the tree is logically empty.
+     * @return true if empty, false otherwise.
+     */
+    public boolean isEmpty( ) { return root == null; }
+
+    /**
+     * Internal method to compute height of a subtree.
+     * @param t the node that roots the subtree.
+     */
+    private int height( BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return -1;
+        else
+            return 1 + Math.max( height( t.left ), height( t.right ) );
+    }
+
+    // Basic node stored in unbalanced binary search trees
+    static class BinaryNode<AnyType>
+    {
+            // Constructors
+        BinaryNode( AnyType theElement )
+        {
+            this( theElement, null, null );
+        }
+
+        BinaryNode( AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt )
+        {
+            element  = theElement;
+            left     = lt;
+            right    = rt;
+        }
+
+        AnyType element;            // The data in the node
+        BinaryNode<AnyType> left;   // Left child
+        BinaryNode<AnyType> right;  // Right child
+    }
 
 
+    //MY STUFF BELOW, DO NOT TOUCH ABOVE OR SO HELP YOU GOD!
 
-	/**
-	 * OutputResults sets the output stream to the proper results file and prints
-	 * each tree doing an inorder traversal. that way, we get a lexicographical
-	 * order of the tree displayed in the output results.
-	 */
-	private void OutputResults() throws FileNotFoundException{
-		System.out.println("Output stuff here.");
-		PrintStream console = System.out;
-		PrintStream out = new PrintStream(new FileOutputStream("filterResults.txt", false));
-		System.setOut(out);
-		filteredBST.printInOrder();
-		System.setOut(console);
-		out.close();
+    public void printInOrder() {  printInOrder( root );  }
 
-		System.out.println("Output index here.");
-		PrintStream outIndex = new PrintStream(new FileOutputStream("input2output.txt", false));
-		System.setOut(outIndex);
-		indexedBST.printInOrder();
-		System.setOut(console);
-		out.close();
-		//System.out.println("did a text file thing!");
-		return;
-	}
+    private void printInOrder( BinaryNode<AnyType> t ){
 
-	/**
-	*These two function call each respective trees print function.
-	*/
-	public void printFilteredTree(){
-		filteredBST.printInOrder();
-	}
+        if (t == null)
+            return;
 
-	public void printIndexedTree(){
-		indexedBST.printInOrder();
-	}
+        printInOrder(t.left);
 
+        System.out.println(t.element + " ");
+
+        printInOrder(t.right);
+
+    }
+
+    public AnyType findMax( )
+    {
+        if( isEmpty( ) )
+            throw new UnderflowException("Cound not findMax");
+        return findMax( root ).element;
+    }
+
+    /**
+     * Internal method to find the smallest item in a subtree.
+     * @param t the node that roots the subtree.
+     * @return node containing the biggest item.
+     */
+    private BinaryNode<AnyType> findMax( BinaryNode<AnyType> t )
+    {
+        if( t == null )
+            return null;
+        else if( t.right == null )
+            return t;
+        return findMax( t.right );
+    }
+
+
+        // Test program
+    /*public static void main( String [ ] args )
+    {
+        BinarySearchTree<Integer> t = new BinarySearchTree<>( );
+        final int NUMS = 4000;
+        final int GAP  =   37;
+
+        System.out.println( "Checking... (no more output means success)" );
+
+        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
+            t.insert( i );
+
+    }*/
 }

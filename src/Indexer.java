@@ -24,7 +24,8 @@ public class Indexer
 				//System.out.println("both files exists!");
 			}
 			else{
-				throw Exception("files not valid");
+				//hrow UnderflowException("invalid files");
+				return;
 			}
 
 			DoIndex();

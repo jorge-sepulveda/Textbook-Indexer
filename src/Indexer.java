@@ -9,17 +9,22 @@ public class Indexer
 	private BinarySearchTree<Word> filteredBST;
 	private BinarySearchTree<Word> indexedBST;
 
+
+	/**
+	*Indexer constructor takes in the file names from args and calls all the functions
+	*needed to construct the BST's
+	*/
+
 	public Indexer(String filterName, String dataFile){
 		try{
 			datafile = dataFile;
 			filterfile = filterName;
 
 			if (fileExists()){
-				System.out.println("both files exists!");
+				//System.out.println("both files exists!");
 			}
 			else{
-				System.out.println("incorrect file setting");
-				return;
+				throw Exception("files not valid");
 			}
 
 			DoIndex();
@@ -29,7 +34,11 @@ public class Indexer
 		}
 		return;
 	}
-
+	/**
+	 *Do Index ties up the Indexer constructor by calling the FileReaders and
+	 *calling the output functions
+	 *
+	*/
 	private void DoIndex(){
 		try{
 			filteredBST = new BinarySearchTree<Word>();
@@ -42,10 +51,6 @@ public class Indexer
 		}
 		return;
 
-
-		//System.out.println("in DoIndex");
-		//run file word reader and filefilter reader and output results
-
 	}
 	/**
      * Checks if the file exists in the directory.
@@ -55,7 +60,11 @@ public class Indexer
 		return (new File(datafile).exists() && new File(filterfile).exists());
 	}
 
-
+	/**
+	 * FileFilterReader reads the stop words file by reading the file line by line
+	 * and it inserts each word into the filteredBST.since the stop words file is
+	 * clean, I didn't do any Regex filtering, I just lowercased each word that goes in.
+	 */
 	private void FileFilterReader() throws IOException{
 		BufferedReader lineReader;
 		System.out.println("file filter reader");
@@ -75,6 +84,11 @@ public class Indexer
 		}
 	}
 
+	/**
+	 * FileWordReader reads the input file by reading the file line by line
+	 * and it inserts each word into the indexedBST. These files have a lot more of
+	 * unnecessary characters there is some Regex checking and cleaning and a lot of it.
+	 */
 	private void FileWordReader() throws IOException{
 		BufferedReader lineReaderWord;
 		System.out.println("file filter reader");
@@ -112,6 +126,13 @@ public class Indexer
 
 	}
 
+
+
+	/**
+	 * OutputResults sets the output stream to the proper results file and prints
+	 * each tree doing an inorder traversal. that way, we get a lexicographical
+	 * order of the tree displayed in the output results.
+	 */
 	private void OutputResults() throws FileNotFoundException{
 		System.out.println("Output stuff here.");
 		PrintStream console = System.out;
@@ -130,7 +151,10 @@ public class Indexer
 		//System.out.println("did a text file thing!");
 		return;
 	}
-
+	//dfsfd
+	/**
+	*These two function call each respective trees print function.
+	*/
 	public void printFilteredTree(){
 		filteredBST.printInOrder();
 	}

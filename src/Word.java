@@ -15,7 +15,7 @@ public class Word implements Comparable<Word>
 		//System.out.println("c-structor called with word: " + wordText + " and line num: " + lineNumbers.peek());
 		count = 1;
 	}
-
+	//dsf
 	public void countWord(int lineNumber){
 
 		//checks to see if we are on the same line. if it is, then just add to the count.

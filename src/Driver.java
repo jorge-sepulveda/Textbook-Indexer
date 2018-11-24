@@ -34,20 +34,10 @@ class Driver
             }
 
 
-            /*BinarySearchTree<Word> t2 = new BinarySearchTree<Word>( );
-
-
-            Word w1 = new Word("x", 6);
-            Word w2 = new Word("p", 5);
-
-            t2.insert(w1);
-
-            //
-            t2.insert(w2);
 
             t2.printInOrder();*/
-            System.out.println(args[0]);
-            System.out.println(args[1]);
+            //System.out.println(args[0]);
+            //System.out.println(args[1]);
 
             Indexer i1 = new Indexer(args[0],args[1]);
 
@@ -64,16 +54,6 @@ class Driver
             }
 
 
-            //test = test.replaceAll("[a-zA-Z]", "");
-            //test = test.replaceAll("\"[a-zA-z]*", "");
-            //test = test.replaceAll(":,.", "");
-            //String[]
-
-            //System.out.println(test);
-
-
-            //System.out.println("printing TREE!");
-            //i1.printFilteredTree();
 
 
 

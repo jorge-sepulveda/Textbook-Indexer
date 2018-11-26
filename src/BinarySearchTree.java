@@ -206,6 +206,23 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     }
 
+	public void printFilterInOrder() {  printFilterInOrder( root );  }
+
+	private void printFilterInOrder( BinaryNode<AnyType> t ){
+
+        if (t == null)
+            return;
+
+        printFilterInOrder(t.left);
+		if (t.element instanceof Word){
+			Word tin;
+			tin = (Word)t.element;
+			System.out.println(tin.getWord() + " ");
+		}
+        printFilterInOrder(t.right);
+
+    }
+
     public AnyType findMax( )
     {
         if( isEmpty( ) )

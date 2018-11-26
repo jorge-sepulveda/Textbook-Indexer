@@ -91,7 +91,7 @@ public class Indexer
 	 */
 	private void FileWordReader() throws IOException{
 		BufferedReader lineReaderWord;
-		System.out.println("file filter reader");
+		System.out.println("file word reader");
 		lineReaderWord = new BufferedReader(new FileReader(datafile));
 
 		String line;
@@ -135,11 +135,11 @@ public class Indexer
 	 * order of the tree displayed in the output results.
 	 */
 	private void OutputResults() throws FileNotFoundException{
-		System.out.println("Output stuff here.");
+		System.out.println("Output filter here.");
 		PrintStream console = System.out;
 		PrintStream out = new PrintStream(new FileOutputStream("filterResults.txt", false));
 		System.setOut(out);
-		filteredBST.printInOrder();
+		filteredBST.printFilterInOrder();
 		System.setOut(console);
 		out.close();
 
@@ -151,17 +151,6 @@ public class Indexer
 		out.close();
 		//System.out.println("did a text file thing!");
 		return;
-	}
-	/**
-	*These two function call each respective trees print function with an
-	*inorder traveral
-	*/
-	public void printFilteredTree(){
-		filteredBST.printInOrder();
-	}
-
-	public void printIndexedTree(){
-		indexedBST.printInOrder();
 	}
 
 }

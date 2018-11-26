@@ -12,10 +12,14 @@ public class Word implements Comparable<Word>
 	Word(String inWord,int lineNumber){
 		wordText = inWord;
 		lineNumbers.add(lineNumber);
-		//System.out.println("c-structor called with word: " + wordText + " and line num: " + lineNumbers.peek());
 		count = 1;
 	}
-	//dsf
+
+	/**countWord happens when a duplication occurs in the tree.
+	* It will check if the lineNumber is already in the queue.
+	* if so, it will just add 1 to the count
+	* otherwise, it will add the linenumber to the queue and add 1 to the count.
+	*/
 	public void countWord(int lineNumber){
 
 		//checks to see if we are on the same line. if it is, then just add to the count.
@@ -31,22 +35,36 @@ public class Word implements Comparable<Word>
 		}
 	}
 
+	/** get lineNumber checks the linenumber
+	*@return top of the lineNumbers queue.
+	*/
 	public int getLineNumber(){
 		return lineNumbers.peek();
 	}
-
+	/**getWord just returns the Word's wordText variable
+	*@return the word of the Word object
+	*/
 	public String getWord(){
 		return wordText;
 	}
 
+	/**
+	* compareTo uses the String compareTo of the words to help with the BST
+	* @return an integer based on the result of the string comparison
+	*/
 	public int compareTo(Word w){
 		return (this.getWord()).compareTo(w.getWord());
 	}
-
+	//overriding equals function
 	public boolean equals(Word w){
 		return this.getWord().equals(w.getWord());
 	}
 
+	/**
+	*toString override to help with text file output
+	*strips the [] and the ,
+	@return word..........count:lineNumbers
+	*/
 	public String toString(){
 		String returnedStr =  String.format("%-20s%4d:", getWord(),count ).replace(' ', '.') + lineNumbers;
 		returnedStr = returnedStr.replace("[", " ");

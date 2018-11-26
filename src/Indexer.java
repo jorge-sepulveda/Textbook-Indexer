@@ -105,7 +105,8 @@ public class Indexer
 			}
 			line = line.toLowerCase();
             line = line.replaceAll("[^a-zA-Z'-]", " ");
-            line = line.replaceAll("(?<=\\s|^)'+(?=\\w)|(?<=\\w)'(?=\\s|$)|(?<=\\s|^)-(?=\\w)|(?<=\\w)-(?=\\s|$)|'-|$=|-'|-\\s|'\\s", "");//the regex expression to end all regex expressions
+			//the regex expression to end all regex expressions
+            line = line.replaceAll("(?<=\\s|^)'+(?=\\w)|(?<=\\w)'(?=\\s|$)|(?<=\\s|^)-(?=\\w)|(?<=\\w)-(?=\\s|$)|'-|$=|-'|-\\s|'\\s", "");
 
             String[] lineArr = line.split("\\s+");
             for (String l : lineArr) {
@@ -151,9 +152,9 @@ public class Indexer
 		//System.out.println("did a text file thing!");
 		return;
 	}
-	//dfsfd
 	/**
-	*These two function call each respective trees print function.
+	*These two function call each respective trees print function with an
+	*inorder traveral
 	*/
 	public void printFilteredTree(){
 		filteredBST.printInOrder();

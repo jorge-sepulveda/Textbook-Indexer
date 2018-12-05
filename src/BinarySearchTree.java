@@ -10,7 +10,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     /** The tree root. */
 	private BinaryNode<AnyType> root;
-
 	/**
      * Construct the tree.
      */
@@ -189,7 +188,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     }
 
 
-    //MY STUFF BELOW, DO NOT TOUCH ABOVE OR SO HELP YOU GOD!
+    //YOUR STUFF BELOW, DO NOT TOUCH ABOVE OR SO HELP YOU GOD, Jorge!
 
     public void printInOrder() {  printInOrder( root );  }
 

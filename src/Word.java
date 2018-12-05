@@ -65,7 +65,14 @@ public class Word implements Comparable<Word>
 	@return word..........count:lineNumbers
 	*/
 	public String toString(){
-		String returnedStr =  String.format("%-20s%4d:", getWord(),count ).replace(' ', '.') + lineNumbers;
+		String returnedStr;
+		if (getWord().length() > 19){
+			returnedStr =  String.format("%-23s%d:", getWord(),count ).replace(' ', '.') + lineNumbers;
+		}
+		else{
+			returnedStr =  String.format("%-19s%5d:", getWord(),count ).replace(' ', '.') + lineNumbers;
+		}
+
 		returnedStr = returnedStr.replace("[", " ");
 		returnedStr = returnedStr.replace("]", "");
 		returnedStr = returnedStr.replace(",", "");

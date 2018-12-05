@@ -134,8 +134,6 @@ public class Indexer
 
 	}
 
-
-
 	/**
 	 * OutputResults sets the output stream to the proper results file and prints
 	 * each tree doing an inorder traversal. that way, we get a lexicographical

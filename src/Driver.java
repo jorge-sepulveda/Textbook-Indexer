@@ -34,25 +34,10 @@ class Driver
             }
 
 
-            //System.out.println(args[0]);
-            //System.out.println(args[1]);
+            System.out.println("Stop word file: " +  args[0]);
+            System.out.println("input file: "+args[1]);
 
             Indexer i1 = new Indexer(args[0],args[1]);
-
-            //i1.printIndexedTree();
-
-            String test = "'It gives guidance to the Ri-ght, and we -have believed therein: we shall not jo'in (in worship) any \"(gods) with our Lord.";
-            test = test.toLowerCase();
-            test = test.replaceAll("[^a-zA-Z'-]", " ");
-            test = test.replaceAll("(?<=\\s|^)'+(?=\\w)|(?<=\\w)'(?=\\s|$)|(?<=\\s|^)-(?=\\w)|(?<=\\w)-(?=\\s|$)", "");
-            String[] testArr = test.split("\\s+");
-
-            for (String a : testArr) {
-                System.out.println(a);
-            }
-
-
-
 
 
 

@@ -21,7 +21,6 @@ public class Word implements Comparable<Word>
 	* otherwise, it will add the linenumber to the queue and add 1 to the count.
 	*/
 	public void countWord(int lineNumber){
-
 		//checks to see if we are on the same line. if it is, then just add to the count.
 		if (lineNumbers.contains(lineNumber)){
 			count += 1;
@@ -70,6 +69,7 @@ public class Word implements Comparable<Word>
 		returnedStr = returnedStr.replace("[", " ");
 		returnedStr = returnedStr.replace("]", "");
 		returnedStr = returnedStr.replace(",", "");
+		returnedStr = returnedStr.trim();
 		return returnedStr;
 	}
 }

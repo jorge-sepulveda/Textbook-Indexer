@@ -1,14 +1,16 @@
 import java.util.*;
 import java.lang.*;
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Indexer
 {
 	private String datafile;
 	private String filterfile;
+	private String numberOnly;
 	private BinarySearchTree<Word> filteredBST;
 	private BinarySearchTree<Word> indexedBST;
-
 
 	/**
 	*Indexer constructor takes in the file names from args and calls all the functions
@@ -20,14 +22,19 @@ public class Indexer
 			datafile = dataFile;
 			filterfile = filterName;
 
-			if (fileExists()){
-				//System.out.println("both files exists!");
-			}
-			else{
+			numberOnly = datafile.replaceAll("[^0-9]", "");
+
+			System.out.println(numberOnly);
+			//System.out.println(number);
+
+			if (!fileExists()){
 				throw new Exception("Could not find file");
 			}
+			else{
 
+			}
 			DoIndex();
+
 
 		}catch( Exception e){
 			e.printStackTrace();
@@ -67,7 +74,7 @@ public class Indexer
 	 */
 	private void FileFilterReader() throws IOException{
 		BufferedReader lineReader;
-		System.out.println("file filter reader");
+		//System.out.println("file filter reader");
 		lineReader = new BufferedReader(new FileReader(filterfile));
 
 		String line;
@@ -91,7 +98,7 @@ public class Indexer
 	 */
 	private void FileWordReader() throws IOException{
 		BufferedReader lineReaderWord;
-		System.out.println("file word reader");
+		//System.out.println("file word reader");
 		lineReaderWord = new BufferedReader(new FileReader(datafile));
 
 		String line;
@@ -135,7 +142,7 @@ public class Indexer
 	 * order of the tree displayed in the output results.
 	 */
 	private void OutputResults() throws FileNotFoundException{
-		System.out.println("Output filter here.");
+		//System.out.println("Output filter here.");
 		PrintStream console = System.out;
 		PrintStream out = new PrintStream(new FileOutputStream("filterResults.txt", false));
 		System.setOut(out);
@@ -143,8 +150,13 @@ public class Indexer
 		System.setOut(console);
 		out.close();
 
-		System.out.println("Output index here.");
-		PrintStream outIndex = new PrintStream(new FileOutputStream("input2output.txt", false));
+
+		//System.out.println("Output index here.");
+
+		String outputFileName = "input"+numberOnly+"output.txt";
+		System.out.println(outputFileName);
+
+		PrintStream outIndex = new PrintStream(new FileOutputStream(outputFileName, false));
 		System.setOut(outIndex);
 		indexedBST.printInOrder();
 		System.setOut(console);
